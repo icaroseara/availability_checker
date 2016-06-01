@@ -1,15 +1,16 @@
 class Availability
   def initialize(db)
     @db = db
-    @reservations = all_reservations
+    @reservations = []
   end
 
   def available_between?(checkin, checkout)
-    ((checkin...checkout).to_a & @reservations).empty?
+    ((checkin...checkout).to_a & reservations).empty?
   end
   
-  def all_reservations
-    @db[:availabilities].flat_map do |availability|
+  private
+  def reservations
+    @reservations |= @db[:availabilities].flat_map do |availability|
       year = availability[:year]
       month = availability[:month]
       days = availability[:days]
