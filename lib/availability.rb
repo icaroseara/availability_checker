@@ -5,7 +5,7 @@ class Availability
   end
 
   def available_between?(checkin, checkout)
-    (checkin..checkout).include?(@reservations)
+    ((checkin...checkout).to_a & @reservations).empty?
   end
   
   def all_reservations
